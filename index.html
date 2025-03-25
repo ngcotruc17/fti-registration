@@ -375,7 +375,7 @@
                 // Gửi dữ liệu đến Google Apps Script
                 const response = await fetch('https://script.google.com/macros/s/AKfycbwMEHNM7GrYJKzP1BZqKKmySJaHzNocXReL7E6D_Rpa6iE8u9WFQl5UVM7Ch53aahxX/exec', {
                     method: 'POST',
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(data),
                     headers: {
                         'Content-Type': 'application/json'
                     },
