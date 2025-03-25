@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Thành Viên - CLB FTI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Noto+Serif+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: #f5e8c7;
+            color: #3a2e1f;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .header {
+            position: relative;
+            background: url('https://images.unsplash.com/photo-1614633181497-1f571d41e7e2?q=80&w=2070&auto=format&fit=crop') no-repeat center/cover;
+            height: 250px;
+            text-align: center;
+            padding: 60px 20px;
+            overflow: hidden;
+            border-bottom: 10px solid transparent;
+            border-image: url('https://www.pngall.com/wp-content/uploads/2016/04/Traditional-Pattern-PNG-Clipart.png') 30 stretch;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/arabesque.png') repeat;
+            opacity: 0.2;
+            z-index: 1;
+        }
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        .header h1 {
+            font-family: 'Noto Serif Display', serif;
+            font-size: 3em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #a81c1c;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.5s ease-out;
+        }
+        .header p {
+            font-size: 1.4em;
+            margin-top: 10px;
+            color: #3a2e1f;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background: #fffdf5;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 5px solid transparent;
+            border-image: url('https://www.pngall.com/wp-content/uploads/2016/04/Traditional-Pattern-PNG-Clipart.png') 30 stretch;
+            position: relative;
+            background: url('https://www.pngall.com/wp-content/uploads/2016/04/Traditional-Pattern-PNG-Clipart.png') repeat center;
+            background-size: 300px;
+            animation: slideUp 1s ease-out;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            background: url('https://www.pngall.com/wp-content/uploads/2016/04/Flower-Design-PNG-Clipart.png') no-repeat center/contain;
+            opacity: 0.8;
+        }
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fffdf5;
+            opacity: 0.9;
+            z-index: -1;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Noto Serif Display', serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #a81c1c;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        .form-section {
+            display: none;
+            gap: 25px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: 600;
+            color: #3a2e1f;
+            margin-bottom: 8px;
+            font-family: 'Noto Serif Display', serif;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            font-size: 1em;
+            background: #fffdf5;
+            color: #3a2e1f;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #a81c1c;
+            box-shadow: 0 0 10px rgba(168, 28, 28, 0.5);
+            outline: none;
+        }
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 10px;
+            accent-color: #a81c1c;
+        }
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .radio-group label,
+        .checkbox-group label {
+            font-weight: 400;
+            font-family: 'Quicksand', sans-serif;
+        }
+        button {
+            background: linear-gradient(45deg, #a81c1c, #d4af37);
+            color: #fffdf5;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            box-shadow: 0 5px 10px rgba(168, 28, 28, 0.4);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(168, 28, 28, 0.6);
+            background: linear-gradient(45deg, #d4af37, #a81c1c);
+        }
+        .note {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: #3a2e1f;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #a81c1c;
+            font-size: 0.9em;
+            color: #fffdf5;
+        }
+        .footer a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            color: #fffdf5;
+        }
+        #login-section {
+            text-align: center;
+        }
+        #login-btn {
+            background: #a81c1c;
+            color: #fffdf5;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #d4af37;
+        }
+        #login-btn:hover {
+            background: #d4af37;
+            color: #3a2e1f;
+        }
+        #user-info {
+            margin-top: 20px;
+            display: none;
+            color: #3a2e1f;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>CLB FTI - FPTU Traditional Instruments</h1>
+            <p>Gìn giữ và lan tỏa âm nhạc truyền thống Việt Nam</p>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Đăng Ký Thành Viên Chính Thức</h2>
+        <div id="login-section">
+            <p>Vui lòng đăng nhập bằng Google để gửi đơn đăng ký.</p>
+            <button id="login-btn">Đăng nhập bằng Google</button>
+            <div id="user-info"></div>
+        </div>
+        <form action="#" method="post" class="form-section" id="registration-form">
+            <div class="form-group">
+                <label for="fullname">Họ và tên:</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Nguyễn Văn A" required>
+            </div>
+            <div class="form-group">
+                <label for="studentid">Mã số sinh viên:</label>
+                <input type="text" id="studentid" name="studentid" placeholder="K20HCM123456" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="example@gmail.com" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" id="phone" name="phone" placeholder="0123 456 789" required>
+            </div>
+            <div class="form-group">
+                <label>Bạn đã từng chơi nhạc cụ truyền thống nào chưa?</label>
+                <div class="radio-group">
+                    <div><input type="radio" id="yes" name="played_instrument" value="yes" required> <label for="yes">Có</label></div>
+                    <div><input type="radio" id="no" name="played_instrument" value="no"> <label for="no">Không</label></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Nhạc cụ truyền thống bạn đã học hoặc đang học:</label>
+                <div class="checkbox-group">
+                    <div><input type="checkbox" id="sao_truc" name="instrument" value="Sáo trúc"> <label for="sao_truc">Sáo trúc</label></div>
+                    <div><input type="checkbox" id="dan_tranh" name="instrument" value="Đàn tranh"> <label for="dan_tranh">Đàn tranh</label></div>
+                    <div><input type="checkbox" id="dan_bau" name="instrument" value="Đàn bầu"> <label for="dan_bau">Đàn bầu</label></div>
+                    <div><input type="checkbox" id="dan_nguyet" name="instrument" value="Đàn nguyệt"> <label for="dan_nguyet">Đàn nguyệt</label></div>
+                    <div><input type="checkbox" id="dan_ty_ba" name="instrument" value="Đàn tỳ bà"> <label for="dan_ty_ba">Đàn tỳ bà</label></div>
+                    <div><input type="checkbox" id="other_instrument" name="instrument" value="Khác"> <label for="other_instrument">Khác</label></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Thời gian bạn có thể tham gia họp CLB:</label>
+                <div class="checkbox-group">
+                    <div><input type="checkbox" id="tue" name="time" value="Tue"> <label for="tue">Thứ 3 (18:00 - 20:00)</label></div>
+                    <div><input type="checkbox" id="thu" name="time" value="Thu"> <label for="thu">Thứ 5 (18:00 - 20:00)</label></div>
+                    <div><input type="checkbox" id="sat" name="time" value="Sat"> <label for="sat">Thứ 7 (14:00 - 16:00)</label></div>
+                    <div><input type="checkbox" id="flex" name="time" value="Flex"> <label for="flex">Linh hoạt theo lịch CLB</label></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Ban bạn muốn hoạt động:</label>
+                <div class="checkbox-group">
+                    <div><input type="checkbox" id="ban_chuyen_mon" name="department" value="Ban chuyên môn"> <label for="ban_chuyen_mon">Ban chuyên môn (Biểu diễn, tập luyện nhạc cụ,...)</label></div>
+                    <div><input type="checkbox" id="ban_truyen_thong" name="department" value="Ban truyền thông"> <label for="ban_truyen_thong">Ban truyền thông (Quay phim, chụp ảnh, thiết kế ấn phẩm,...)</label></div>
+                    <div><input type="checkbox" id="ban_su_kien" name="department" value="Ban kế hoạch sự kiện"> <label for="ban_su_kien">Ban kế hoạch sự kiện (Lên kế hoạch tổ chức sự kiện,...)</label></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="reason">Lý do bạn muốn tham gia câu lạc bộ:</label>
+                <textarea id="reason" name="reason" rows="4" placeholder="Ví dụ: Tôi muốn học chơi sáo trúc và góp phần quảng bá văn hóa Việt Nam." required></textarea>
+            </div>
+            <button type="submit">Gửi Đăng Ký</button>
+        </form>
+        <p class="note">*Hạn chót đăng ký: 30/04/2025. Bạn sẽ nhận email xác nhận trong 3-5 ngày.</p>
+    </div>
+    <div class="footer">
+        <p>Liên hệ: Email: <a href="mailto:clbfti@fpt.edu.vn">clbfti@fpt.edu.vn</a> | Fanpage: <a href="#">facebook.com/FTI.FPTU</a></p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCW_oSgW7nxDuDPikAFLOdxuYWGGRshBM0",
+            authDomain: "fti-registration.firebaseapp.com",
+            projectId: "fti-registration",
+            storageBucket: "fti-registration.firebasestorage.app",
+            messagingSenderId: "113340587628",
+            appId: "1:113340587628:web:32849d3e760dec7aaf0249",
+            measurementId: "G-XCK3XSGE6B"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Google Sign-In
+        const provider = new GoogleAuthProvider();
+        document.getElementById('login-btn').addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('registration-form').style.display = 'grid';
+                    document.getElementById('user-info').style.display = 'block';
+                    document.getElementById('user-info').innerHTML = `Đã đăng nhập: ${user.displayName} (${user.email})`;
+                    document.getElementById('email').value = user.email;
+                })
+                .catch((error) => {
+                    console.error("Lỗi đăng nhập:", error.message);
+                    alert("Đã có lỗi xảy ra: " + error.message);
+                });
+        });
+
+        // Xử lý gửi form đến Google Apps Script
+        const form = document.getElementById('registration-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Thu thập dữ liệu từ form
+            const formData = new FormData(form);
+            const data = {
+                fullname: formData.get('fullname'),
+                studentid: formData.get('studentid'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                played_instrument: formData.get('played_instrument'),
+                instruments: formData.getAll('instrument'),
+                times: formData.getAll('time'),
+                departments: formData.getAll('department'),
+                reason: formData.get('reason')
+            };
+
+            try {
+                // Gửi dữ liệu đến Google Apps Script
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwMEHNM7GrYJKzP1BZqKKmySJaHzNocXReL7E6D_Rpa6iE8u9WFQl5UVM7Ch53aahxX/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors' // Thêm mode cors để xử lý yêu cầu cross-origin
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Đăng ký thành công! Dữ liệu đã được lưu vào Google Sheets.');
+                    form.reset();
+                } else {
+                    alert('Có lỗi xảy ra: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi khi gửi dữ liệu:', error);
+                alert('Lỗi khi gửi dữ liệu: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
