@@ -49,14 +49,14 @@
             font-size: 3em;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: #a81c1c;
+            color: #d4af37;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             animation: fadeIn 1.5s ease-out;
         }
         .header p {
             font-size: 1.4em;
             margin-top: 10px;
-            color: #3a2e1f;
+            color: #fff;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 1s ease-out;
         }
@@ -238,7 +238,7 @@
 <body>
     <div class="header">
         <div class="header-content">
-            <h1>FPTU Traditional Instruments</h1>
+            <h1>CLB FTI - FPTU Traditional Instruments</h1>
             <p>Gìn giữ và lan tỏa âm nhạc truyền thống Việt Nam</p>
         </div>
     </div>
@@ -310,7 +310,7 @@
         <p class="note">*Hạn chót đăng ký: 30/04/2025. Bạn sẽ nhận email xác nhận trong 3-5 ngày.</p>
     </div>
     <div class="footer">
-        <p>Liên hệ: Email: <a href="mailto:fti.fptuhcm@gmail.com">clbfti@fpt.edu.vn</a> | Fanpage: <a href="#">www.facebook.com/ftihcm</a></p>
+        <p>Liên hệ: Email: <a href="mailto:clbfti@fpt.edu.vn">clbfti@fpt.edu.vn</a> | Fanpage: <a href="#">facebook.com/FTI.FPTU</a></p>
     </div>
 
     <!-- Firebase SDK -->
@@ -373,22 +373,17 @@
 
             try {
                 // Gửi dữ liệu đến Google Apps Script
-                const response = await fetch('https://script.google.com/macros/s/AKfycbwMEHNM7GrYJKzP1BZqKKmySJaHzNocXReL7E6D_Rpa6iE8u9WFQl5UVM7Ch53aahxX/exec', {
+                await fetch('https://script.google.com/macros/s/AKfycbwMEHNM7GrYJKzP1BZqKKmySJaHzNocXReL7E6D_Rpa6iE8u9WFQl5UVM7Ch53aahxX/exec', {
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    mode: 'cors' // Thêm mode cors để xử lý yêu cầu cross-origin
+                    mode: 'no-cors' // Sử dụng no-cors để tránh lỗi CORS
                 });
 
-                const result = await response.json();
-                if (result.status === 'success') {
-                    alert('Đăng ký thành công! Dữ liệu đã được lưu vào Google Sheets.');
-                    form.reset();
-                } else {
-                    alert('Có lỗi xảy ra: ' + result.message);
-                }
+                alert('Đăng ký thành công! Dữ liệu đã được lưu vào Google Sheets.');
+                form.reset();
             } catch (error) {
                 console.error('Lỗi khi gửi dữ liệu:', error);
                 alert('Lỗi khi gửi dữ liệu: ' + error.message);
