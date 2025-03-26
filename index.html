@@ -22,14 +22,12 @@
             position: relative;
         }
 
-        /* Hiệu ứng gradient nền */
         @keyframes gradientBackground {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Hiệu ứng hạt nền */
         #particles {
             position: fixed;
             top: 0;
@@ -49,7 +47,7 @@
             border-bottom: 15px solid transparent;
             border-image: url('https://www.pngall.com/wp-content/uploads/2016/04/Traditional-Pattern-PNG-Clipart.png') 30 stretch;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            background-attachment: fixed; /* Hiệu ứng parallax */
+            background-attachment: fixed;
         }
         .header::before {
             content: '';
@@ -371,7 +369,6 @@
             font-weight: 400;
         }
 
-        /* Hiệu ứng nhạc cụ di chuyển */
         .instrument-icons {
             position: fixed;
             top: 0;
@@ -407,7 +404,6 @@
             animation-delay: 10s;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -430,7 +426,7 @@
             100% { transform: translateY(0); }
         }
 
-        /* Popup styles */
+        /* Popup styles cải tiến */
         .popup {
             display: none;
             position: fixed;
@@ -455,6 +451,7 @@
             animation: popupFadeIn 0.5s ease-out;
             border: 3px solid transparent;
             border-image: linear-gradient(45deg, #a81c1c, #d4af37) 1;
+            background: linear-gradient(45deg, #fffdf5, #f7f0e3);
         }
         .popup-icon {
             width: 80px;
@@ -471,19 +468,23 @@
             background-size: contain;
             animation: xAnimation 0.5s ease-out forwards;
         }
+        .preview .popup-icon {
+            display: none;
+        }
         .popup-message {
-            font-size: 1.3em;
+            font-size: 1.4em;
             color: #3a2e1f;
             margin-bottom: 30px;
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Playfair Display', serif;
+            line-height: 1.5;
         }
         .popup-close {
             background: linear-gradient(45deg, #a81c1c, #d4af37);
             color: #fffdf5;
-            padding: 12px 25px;
+            padding: 12px 30px;
             border: none;
             border-radius: 10px;
-            font-size: 1.1em;
+            font-size: 1.2em;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -555,18 +556,15 @@
             background: #a81c1c;
             color: #fffdf5;
         }
-        .preview .popup-icon {
-            display: none;
-        }
 
         @keyframes popupFadeIn {
             from {
                 opacity: 0;
-                transform: scale(0.8);
+                transform: scale(0.8) rotate(5deg);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1) rotate(0deg);
             }
         }
         @keyframes tickAnimation {
@@ -600,10 +598,7 @@
     </style>
 </head>
 <body>
-    <!-- Hạt nền -->
     <div id="particles"></div>
-
-    <!-- Biểu tượng nhạc cụ di chuyển -->
     <div class="instrument-icons">
         <div class="instrument-icon"></div>
         <div class="instrument-icon"></div>
@@ -688,7 +683,6 @@
             </div>
         </form>
         <p class="note">*Hạn chót đăng ký: 30/04/2025. Bạn sẽ nhận email xác nhận trong 3-5 ngày.</p>
-        <!-- Popup thông báo -->
         <div id="popup" class="popup">
             <div class="popup-content">
                 <div id="popup-icon" class="popup-icon"></div>
@@ -702,13 +696,10 @@
         <p>Liên hệ: Email: <a href="mailto:clbfti@fpt.edu.vn">clbfti@fpt.edu.vn</a> | Fanpage: <a href="#">facebook.com/FTI.FPTU</a></p>
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
-        // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
-        // Your Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCW_oSgW7nxDuDPikAFLOdxuYWGGRshBM0",
             authDomain: "fti-registration.firebaseapp.com",
@@ -719,11 +710,9 @@
             measurementId: "G-XCK3XSGE6B"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Google Sign-In
         const provider = new GoogleAuthProvider();
         document.getElementById('login-btn').addEventListener('click', () => {
             signInWithPopup(auth, provider)
@@ -741,7 +730,6 @@
                 });
         });
 
-        // Hàm hiển thị popup
         function showPopup(type, message, showConfirm = false) {
             const popup = document.getElementById('popup');
             const popupContent = document.querySelector('.popup-content');
@@ -793,7 +781,6 @@
             };
         }
 
-        // Xử lý gửi form đến Google Apps Script
         const form = document.getElementById('registration-form');
         document.getElementById('preview-btn').addEventListener('click', () => {
             const formData = new FormData(form);
@@ -857,7 +844,6 @@
             }
         });
 
-        // Đếm ngược thời gian
         function startCountdown() {
             const deadline = new Date('2025-04-30T23:59:59');
             const timerElement = document.getElementById('timer');
@@ -890,7 +876,6 @@
 
         startCountdown();
 
-        // Hiệu ứng cuộn
         function handleScroll() {
             const elements = document.querySelectorAll('.form-group, #login-section, .countdown');
             elements.forEach(element => {
@@ -905,7 +890,6 @@
         handleScroll();
     </script>
 
-    <!-- Thư viện particles.js -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         particlesJS('particles', {
