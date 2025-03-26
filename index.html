@@ -300,14 +300,12 @@
             margin: 0 auto 20px;
         }
 
-        /* Dấu tick (thành công) */
         .success .popup-icon {
             background: url('https://www.svgrepo.com/show/13695/success.svg') no-repeat center;
             background-size: contain;
             animation: tickAnimation 0.5s ease-out forwards;
         }
 
-        /* Dấu X (lỗi) */
         .error .popup-icon {
             background: url('https://www.svgrepo.com/show/13654/error.svg') no-repeat center;
             background-size: contain;
@@ -388,7 +386,6 @@
             }
         }
 
-        /* Hiệu ứng cho dấu tick */
         @keyframes tickAnimation {
             0% {
                 transform: scale(0);
@@ -404,7 +401,6 @@
             }
         }
 
-        /* Hiệu ứng cho dấu X */
         @keyframes xAnimation {
             0% {
                 transform: rotate(0deg) scale(0);
@@ -506,6 +502,7 @@
                 <div id="popup-icon" class="popup-icon"></div>
                 <p id="popup-message"></p>
                 <button id="popup-close" class="popup-close">OK</button>
+                <div id="popup-buttons" class="popup-buttons"></div> <!-- Thêm container cho các nút -->
             </div>
         </div>
     </div>
@@ -559,6 +556,7 @@
             const popupIcon = document.getElementById('popup-icon');
             const popupMessage = document.getElementById('popup-message');
             const popupClose = document.getElementById('popup-close');
+            const popupButtons = document.getElementById('popup-buttons'); // Container cho các nút
 
             // Xóa class cũ
             popupContent.classList.remove('success', 'error', 'preview');
@@ -567,7 +565,12 @@
             // Cập nhật thông báo
             popupMessage.innerHTML = message;
 
-            // Ẩn nút đóng mặc định
+            // Xóa các nút cũ trong popup-buttons
+            while (popupButtons.firstChild) {
+                popupButtons.removeChild(popupButtons.firstChild);
+            }
+
+            // Ẩn nút đóng mặc định nếu là preview
             popupClose.style.display = showConfirm ? 'none' : 'block';
 
             // Thêm nút "Xác nhận" và "Quay lại" nếu là preview
@@ -587,8 +590,9 @@
                     popup.style.display = 'none';
                 };
 
-                popupContent.appendChild(backBtn);
-                popupContent.appendChild(confirmBtn);
+                // Thêm các nút vào container popup-buttons
+                popupButtons.appendChild(backBtn);
+                popupButtons.appendChild(confirmBtn);
             }
 
             // Hiển thị popup
@@ -597,19 +601,11 @@
             // Xử lý đóng popup
             popupClose.onclick = () => {
                 popup.style.display = 'none';
-                const confirmBtn = document.querySelector('.popup-confirm');
-                const backBtn = document.querySelector('.popup-back');
-                if (confirmBtn) confirmBtn.remove();
-                if (backBtn) backBtn.remove();
             };
 
             popup.onclick = (e) => {
                 if (e.target === popup) {
                     popup.style.display = 'none';
-                    const confirmBtn = document.querySelector('.popup-confirm');
-                    const backBtn = document.querySelector('.popup-back');
-                    if (confirmBtn) confirmBtn.remove();
-                    if (backBtn) backBtn.remove();
                 }
             };
         }
