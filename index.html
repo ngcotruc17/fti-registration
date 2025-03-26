@@ -233,6 +233,120 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Popup styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: #fffdf5;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-width: 400px;
+            width: 90%;
+            animation: popupFadeIn 0.5s ease-out;
+        }
+
+        .popup-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+        }
+
+        /* Dấu tick (thành công) */
+        .success .popup-icon {
+            background: url('https://www.svgrepo.com/show/13695/success.svg') no-repeat center;
+            background-size: contain;
+            animation: tickAnimation 0.5s ease-out forwards;
+        }
+
+        /* Dấu X (lỗi) */
+        .error .popup-icon {
+            background: url('https://www.svgrepo.com/show/13654/error.svg') no-repeat center;
+            background-size: contain;
+            animation: xAnimation 0.5s ease-out forwards;
+        }
+
+        .popup-message {
+            font-size: 1.2em;
+            color: #3a2e1f;
+            margin-bottom: 20px;
+        }
+
+        .popup-close {
+            background: linear-gradient(45deg, #a81c1c, #d4af37);
+            color: #fffdf5;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-close:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(168, 28, 28, 0.6);
+            background: linear-gradient(45deg, #d4af37, #a81c1c);
+        }
+
+        /* Hiệu ứng popup */
+        @keyframes popupFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Hiệu ứng cho dấu tick */
+        @keyframes tickAnimation {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Hiệu ứng cho dấu X */
+        @keyframes xAnimation {
+            0% {
+                transform: rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+                opacity: 0.5;
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -287,10 +401,10 @@
             <div class="form-group">
                 <label>Thời gian bạn có thể tham gia họp CLB:</label>
                 <div class="checkbox-group">
-                    <div><input type="checkbox" id="tue" name="time" value="Tue"> <label for="tue">Thứ 3 (18:00 - 20:00)</label></div>
-                    <div><input type="checkbox" id="thu" name="time" value="Thu"> <label for="thu">Thứ 5 (18:00 - 20:00)</label></div>
-                    <div><input type="checkbox" id="sat" name="time" value="Sat"> <label for="sat">Thứ 7 (14:00 - 16:00)</label></div>
-                    <div><input type="checkbox" id="flex" name="time" value="Flex"> <label for="flex">Linh hoạt theo lịch CLB</label></div>
+                    <div><input type="checkbox" id="mon" name="time" value="Tue"> <label for="Monday">Thứ 3 (18:00 - 20:00)</label></div>
+                    <div><input type="checkbox" id="wed" name="time" value="Thu"> <label for="Wednessday">Thứ 5 (18:00 - 20:00)</label></div>
+                    <div><input type="checkbox" id="fri" name="time" value="Sat"> <label for="Friday">Thứ 7 (14:00 - 16:00)</label></div>
+                    <div><input type="checkbox" id="flex" name="time" value="Flex"> <label for="Flexible">Linh hoạt theo lịch CLB</label></div>
                 </div>
             </div>
             <div class="form-group">
@@ -308,6 +422,14 @@
             <button type="submit">Gửi Đăng Ký</button>
         </form>
         <p class="note">*Hạn chót đăng ký: 30/04/2025. Bạn sẽ nhận email xác nhận trong 3-5 ngày.</p>
+        <!-- Popup thông báo -->
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <div id="popup-icon" class="popup-icon"></div>
+                <p id="popup-message"></p>
+                <button id="popup-close" class="popup-close">OK</button>
+            </div>
+        </div>
     </div>
     <div class="footer">
         <p>Liên hệ: Email: <a href="mailto:clbfti@fpt.edu.vn">clbfti@fpt.edu.vn</a> | Fanpage: <a href="#">facebook.com/FTI.FPTU</a></p>
@@ -348,9 +470,42 @@
                 })
                 .catch((error) => {
                     console.error("Lỗi đăng nhập:", error.message);
-                    alert("Đã có lỗi xảy ra: " + error.message);
+                    showPopup('error', 'Đã có lỗi xảy ra khi đăng nhập: ' + error.message);
                 });
         });
+
+        // Hàm hiển thị popup
+        function showPopup(type, message) {
+            const popup = document.getElementById('popup');
+            const popupContent = document.querySelector('.popup-content');
+            const popupIcon = document.getElementById('popup-icon');
+            const popupMessage = document.getElementById('popup-message');
+
+            // Xóa class cũ (nếu có)
+            popupContent.classList.remove('success', 'error');
+
+            // Thêm class tương ứng (success hoặc error)
+            popupContent.classList.add(type);
+
+            // Cập nhật thông báo
+            popupMessage.textContent = message;
+
+            // Hiển thị popup
+            popup.style.display = 'flex';
+
+            // Xử lý sự kiện đóng popup
+            const closeButton = document.getElementById('popup-close');
+            closeButton.onclick = () => {
+                popup.style.display = 'none';
+            };
+
+            // Đóng popup khi click bên ngoài
+            popup.onclick = (e) => {
+                if (e.target === popup) {
+                    popup.style.display = 'none';
+                }
+            };
+        }
 
         // Xử lý gửi form đến Google Apps Script
         const form = document.getElementById('registration-form');
@@ -382,11 +537,13 @@
                     mode: 'no-cors' // Sử dụng no-cors để tránh lỗi CORS
                 });
 
-                alert('Đăng ký thành công! Dữ liệu đã được lưu vào Google Sheets.');
+                // Hiển thị popup thành công
+                showPopup('success', 'Đăng ký thành công! Dữ liệu đã được lưu vào Google Sheets.');
                 form.reset();
             } catch (error) {
                 console.error('Lỗi khi gửi dữ liệu:', error);
-                alert('Lỗi khi gửi dữ liệu: ' + error.message);
+                // Hiển thị popup lỗi
+                showPopup('error', 'Lỗi khi gửi dữ liệu: ' + error.message);
             }
         });
     </script>
