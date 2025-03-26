@@ -401,9 +401,9 @@
             <div class="form-group">
                 <label>Thời gian bạn có thể tham gia họp CLB:</label>
                 <div class="checkbox-group">
-                    <div><input type="checkbox" id="mon" name="time" value="Tue"> <label for="Monday">Thứ 3 (18:00 - 20:00)</label></div>
-                    <div><input type="checkbox" id="wed" name="time" value="Thu"> <label for="Wednessday">Thứ 5 (18:00 - 20:00)</label></div>
-                    <div><input type="checkbox" id="fri" name="time" value="Sat"> <label for="Friday">Thứ 7 (14:00 - 16:00)</label></div>
+                    <div><input type="checkbox" id="mon" name="time" value="Tue"> <label for="Monday">Thứ 2 (18:00 - 20:00)</label></div>
+                    <div><input type="checkbox" id="wed" name="time" value="Thu"> <label for="Wednessday">Thứ 4 (18:00 - 20:00)</label></div>
+                    <div><input type="checkbox" id="fri" name="time" value="Sat"> <label for="Friday">Thứ 6 (14:00 - 16:00)</label></div>
                     <div><input type="checkbox" id="flex" name="time" value="Flex"> <label for="Flexible">Linh hoạt theo lịch CLB</label></div>
                 </div>
             </div>
@@ -538,7 +538,7 @@
                 });
 
                 // Hiển thị popup thành công
-                showPopup('success', 'Đăng ký thành công! Dữ liệu đã được lưu vào Google Sheets.');
+                showPopup('success', 'Đăng ký thành công! Bạn sẽ nhận email xác nhận trong 3-5 ngày.');
                 form.reset();
             } catch (error) {
                 console.error('Lỗi khi gửi dữ liệu:', error);
