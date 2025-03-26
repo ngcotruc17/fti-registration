@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Ký Thành Viên - CLB FTI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Noto+Serif+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Noto+Serif+Display:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,21 +13,43 @@
         }
         body {
             font-family: 'Quicksand', sans-serif;
-            background: #f5e8c7;
+            background: linear-gradient(45deg, #f5e8c7, #f7d9a3, #f5e8c7);
+            background-size: 200% 200%;
+            animation: gradientBackground 15s ease infinite;
             color: #3a2e1f;
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
         }
+
+        /* Hiệu ứng gradient nền */
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Hiệu ứng hạt nền */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
         .header {
             position: relative;
             background: url('https://images.unsplash.com/photo-1614633181497-1f571d41e7e2?q=80&w=2070&auto=format&fit=crop') no-repeat center/cover;
-            height: 250px;
+            height: 400px;
             text-align: center;
-            padding: 60px 20px;
+            padding: 100px 20px;
             overflow: hidden;
-            border-bottom: 10px solid transparent;
+            border-bottom: 15px solid transparent;
             border-image: url('https://www.pngall.com/wp-content/uploads/2016/04/Traditional-Pattern-PNG-Clipart.png') 30 stretch;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background-attachment: fixed; /* Hiệu ứng parallax */
         }
         .header::before {
             content: '';
@@ -45,29 +67,30 @@
             z-index: 2;
         }
         .header h1 {
-            font-family: 'Noto Serif Display', serif;
-            font-size: 3em;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: #d4af37;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
             animation: fadeIn 1.5s ease-out;
         }
         .header p {
-            font-size: 1.4em;
-            margin-top: 10px;
-            color: #fff;
+            font-size: 1.5em;
+            margin-top: 15px;
+            color: #fffdf5;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 1s ease-out;
         }
+
         .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 40px;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 50px;
             background: #fffdf5;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border: 5px solid transparent;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 8px solid transparent;
             border-image: url('https://www.pngall.com/wp-content/uploads/2016/04/Traditional-Pattern-PNG-Clipart.png') 30 stretch;
             position: relative;
             background: url('https://www.pngall.com/wp-content/uploads/2016/04/Traditional-Pattern-PNG-Clipart.png') repeat center;
@@ -77,13 +100,14 @@
         .container::before {
             content: '';
             position: absolute;
-            top: -20px;
+            top: -30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             background: url('https://www.pngall.com/wp-content/uploads/2016/04/Flower-Design-PNG-Clipart.png') no-repeat center/contain;
             opacity: 0.8;
+            animation: rotateFlower 10s linear infinite;
         }
         .container::after {
             content: '';
@@ -93,69 +117,101 @@
             width: 100%;
             height: 100%;
             background: #fffdf5;
-            opacity: 0.9;
+            opacity: 0.95;
             z-index: -1;
         }
+
         h2 {
             text-align: center;
-            margin-bottom: 30px;
-            font-family: 'Noto Serif Display', serif;
-            font-size: 2.2em;
+            margin-bottom: 40px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
             font-weight: 700;
             color: #a81c1c;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(45deg, #a81c1c, #d4af37);
+            border-radius: 2px;
+        }
+
         .form-section {
             display: none;
-            gap: 25px;
+            gap: 30px;
         }
         .form-group {
             display: flex;
             flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        .form-group.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         label {
             font-weight: 600;
             color: #3a2e1f;
-            margin-bottom: 8px;
-            font-family: 'Noto Serif Display', serif;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1em;
         }
         input[type="text"],
         input[type="email"],
         textarea {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             border: 2px solid #d4af37;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1em;
             background: #fffdf5;
             color: #3a2e1f;
             transition: all 0.3s ease;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         input[type="text"]:focus,
         input[type="email"]:focus,
         textarea:focus {
             border-color: #a81c1c;
-            box-shadow: 0 0 10px rgba(168, 28, 28, 0.5);
+            box-shadow: 0 0 15px rgba(168, 28, 28, 0.5);
             outline: none;
+            transform: scale(1.02);
         }
         input[type="radio"],
         input[type="checkbox"] {
             margin-right: 10px;
             accent-color: #a81c1c;
+            transform: scale(1.2);
         }
         .radio-group,
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
             margin-top: 10px;
         }
         .radio-group label,
         .checkbox-group label {
             font-weight: 400;
             font-family: 'Quicksand', sans-serif;
+            font-size: 1em;
+            transition: color 0.3s ease;
         }
+        .radio-group label:hover,
+        .checkbox-group label:hover {
+            color: #a81c1c;
+        }
+
         .form-buttons {
             display: flex;
             justify-content: space-between;
@@ -164,94 +220,191 @@
         button {
             background: linear-gradient(45deg, #a81c1c, #d4af37);
             color: #fffdf5;
-            padding: 15px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1.2em;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 25px;
-            box-shadow: 0 5px 10px rgba(168, 28, 28, 0.4);
+            box-shadow: 0 5px 15px rgba(168, 28, 28, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        button:hover::before {
+            left: 100%;
         }
         button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(168, 28, 28, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(168, 28, 28, 0.6);
             background: linear-gradient(45deg, #d4af37, #a81c1c);
         }
         #preview-btn {
             background: #d4af37;
             color: #3a2e1f;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.2em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 25px;
-            box-shadow: 0 5px 10px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
         }
         #preview-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.6);
             background: #a81c1c;
             color: #fffdf5;
         }
+
         .note {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             font-style: italic;
             color: #3a2e1f;
             font-family: 'Quicksand', sans-serif;
+            font-size: 1em;
         }
+
         .footer {
             text-align: center;
-            padding: 20px;
-            background: #a81c1c;
-            font-size: 0.9em;
+            padding: 30px;
+            background: linear-gradient(45deg, #a81c1c, #d4af37);
+            font-size: 1em;
             color: #fffdf5;
+            position: relative;
+            overflow: hidden;
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        .footer:hover::before {
+            left: 100%;
         }
         .footer a {
-            color: #d4af37;
+            color: #fffdf5;
             text-decoration: none;
             font-weight: bold;
+            transition: color 0.3s ease;
         }
         .footer a:hover {
-            color: #fffdf5;
+            color: #3a2e1f;
         }
+
         #login-section {
             text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        #login-section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         #login-btn {
-            background: #a81c1c;
+            background: linear-gradient(45deg, #a81c1c, #d4af37);
             color: #fffdf5;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1.1em;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid #d4af37;
+            border: none;
+            box-shadow: 0 5px 15px rgba(168, 28, 28, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        #login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        #login-btn:hover::before {
+            left: 100%;
         }
         #login-btn:hover {
-            background: #d4af37;
-            color: #3a2e1f;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(168, 28, 28, 0.6);
+            background: linear-gradient(45deg, #d4af37, #a81c1c);
         }
         #user-info {
             margin-top: 20px;
             display: none;
             color: #3a2e1f;
             font-family: 'Quicksand', sans-serif;
+            font-size: 1em;
         }
+
         .countdown {
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-size: 1.3em;
             color: #a81c1c;
             font-weight: 700;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        .countdown.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .countdown #timer {
             color: #3a2e1f;
+            font-weight: 400;
+        }
+
+        /* Hiệu ứng nhạc cụ di chuyển */
+        .instrument-icons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .instrument-icon {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
+        }
+        .instrument-icon:nth-child(1) {
+            left: 10%;
+            top: 20%;
+            background: url('https://www.pngall.com/wp-content/uploads/2016/04/Musical-Instrument-PNG-Clipart.png') no-repeat center/contain;
+            animation-delay: 0s;
+        }
+        .instrument-icon:nth-child(2) {
+            left: 80%;
+            top: 50%;
+            background: url('https://www.pngall.com/wp-content/uploads/2016/04/Musical-Instrument-PNG-Clipart.png') no-repeat center/contain;
+            animation-delay: 5s;
+        }
+        .instrument-icon:nth-child(3) {
+            left: 30%;
+            top: 70%;
+            background: url('https://www.pngall.com/wp-content/uploads/2016/04/Musical-Instrument-PNG-Clipart.png') no-repeat center/contain;
+            animation-delay: 10s;
         }
 
         /* Animations */
@@ -267,6 +420,15 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes rotateFlower {
+            from { transform: translateX(-50%) rotate(0deg); }
+            to { transform: translateX(-50%) rotate(360deg); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-50px); }
+            100% { transform: translateY(0); }
+        }
 
         /* Popup styles */
         .popup {
@@ -276,105 +438,127 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
-
         .popup-content {
             background: #fffdf5;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             position: relative;
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
             animation: popupFadeIn 0.5s ease-out;
+            border: 3px solid transparent;
+            border-image: linear-gradient(45deg, #a81c1c, #d4af37) 1;
         }
-
         .popup-icon {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 20px;
         }
-
         .success .popup-icon {
             background: url('https://www.svgrepo.com/show/13695/success.svg') no-repeat center;
             background-size: contain;
             animation: tickAnimation 0.5s ease-out forwards;
         }
-
         .error .popup-icon {
             background: url('https://www.svgrepo.com/show/13654/error.svg') no-repeat center;
             background-size: contain;
             animation: xAnimation 0.5s ease-out forwards;
         }
-
         .popup-message {
-            font-size: 1.2em;
+            font-size: 1.3em;
             color: #3a2e1f;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-family: 'Quicksand', sans-serif;
         }
-
         .popup-close {
             background: linear-gradient(45deg, #a81c1c, #d4af37);
             color: #fffdf5;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 8px;
-            font-size: 1em;
+            border-radius: 10px;
+            font-size: 1.1em;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(168, 28, 28, 0.4);
+            position: relative;
+            overflow: hidden;
         }
-
+        .popup-close::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        .popup-close:hover::before {
+            left: 100%;
+        }
         .popup-close:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(168, 28, 28, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(168, 28, 28, 0.6);
             background: linear-gradient(45deg, #d4af37, #a81c1c);
         }
-
         .popup-confirm, .popup-back {
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 8px;
-            font-size: 1em;
+            border-radius: 10px;
+            font-size: 1.1em;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             margin: 0 10px;
+            position: relative;
+            overflow: hidden;
         }
-
         .popup-confirm {
             background: linear-gradient(45deg, #a81c1c, #d4af37);
             color: #fffdf5;
+            box-shadow: 0 5px 15px rgba(168, 28, 28, 0.4);
         }
-
-        .popup-confirm:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(168, 28, 28, 0.6);
-            background: linear-gradient(45deg, #d4af37, #a81c1c);
-        }
-
         .popup-back {
             background: #d4af37;
             color: #3a2e1f;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
         }
-
+        .popup-confirm::before, .popup-back::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        .popup-confirm:hover::before, .popup-back:hover::before {
+            left: 100%;
+        }
+        .popup-confirm:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(168, 28, 28, 0.6);
+            background: linear-gradient(45deg, #d4af37, #a81c1c);
+        }
         .popup-back:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.6);
             background: #a81c1c;
             color: #fffdf5;
         }
-
         .preview .popup-icon {
             display: none;
         }
 
-        /* Hiệu ứng popup */
         @keyframes popupFadeIn {
             from {
                 opacity: 0;
@@ -385,7 +569,6 @@
                 transform: scale(1);
             }
         }
-
         @keyframes tickAnimation {
             0% {
                 transform: scale(0);
@@ -400,7 +583,6 @@
                 opacity: 1;
             }
         }
-
         @keyframes xAnimation {
             0% {
                 transform: rotate(0deg) scale(0);
@@ -418,6 +600,16 @@
     </style>
 </head>
 <body>
+    <!-- Hạt nền -->
+    <div id="particles"></div>
+
+    <!-- Biểu tượng nhạc cụ di chuyển -->
+    <div class="instrument-icons">
+        <div class="instrument-icon"></div>
+        <div class="instrument-icon"></div>
+        <div class="instrument-icon"></div>
+    </div>
+
     <div class="header">
         <div class="header-content">
             <h1>CLB FTI - FPTU Traditional Instruments</h1>
@@ -502,7 +694,7 @@
                 <div id="popup-icon" class="popup-icon"></div>
                 <p id="popup-message"></p>
                 <button id="popup-close" class="popup-close">OK</button>
-                <div id="popup-buttons" class="popup-buttons"></div> <!-- Thêm container cho các nút -->
+                <div id="popup-buttons" class="popup-buttons"></div>
             </div>
         </div>
     </div>
@@ -556,24 +748,18 @@
             const popupIcon = document.getElementById('popup-icon');
             const popupMessage = document.getElementById('popup-message');
             const popupClose = document.getElementById('popup-close');
-            const popupButtons = document.getElementById('popup-buttons'); // Container cho các nút
+            const popupButtons = document.getElementById('popup-buttons');
 
-            // Xóa class cũ
             popupContent.classList.remove('success', 'error', 'preview');
             popupContent.classList.add(type);
-
-            // Cập nhật thông báo
             popupMessage.innerHTML = message;
 
-            // Xóa các nút cũ trong popup-buttons
             while (popupButtons.firstChild) {
                 popupButtons.removeChild(popupButtons.firstChild);
             }
 
-            // Ẩn nút đóng mặc định nếu là preview
             popupClose.style.display = showConfirm ? 'none' : 'block';
 
-            // Thêm nút "Xác nhận" và "Quay lại" nếu là preview
             if (showConfirm) {
                 const confirmBtn = document.createElement('button');
                 confirmBtn.textContent = 'Xác nhận';
@@ -590,15 +776,12 @@
                     popup.style.display = 'none';
                 };
 
-                // Thêm các nút vào container popup-buttons
                 popupButtons.appendChild(backBtn);
                 popupButtons.appendChild(confirmBtn);
             }
 
-            // Hiển thị popup
             popup.style.display = 'flex';
 
-            // Xử lý đóng popup
             popupClose.onclick = () => {
                 popup.style.display = 'none';
             };
@@ -706,6 +889,42 @@
         }
 
         startCountdown();
+
+        // Hiệu ứng cuộn
+        function handleScroll() {
+            const elements = document.querySelectorAll('.form-group, #login-section, .countdown');
+            elements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= window.innerHeight * 0.8) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+    </script>
+
+    <!-- Thư viện particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles', {
+            particles: {
+                number: { value: 50, density: { enable: true, value_area: 800 } },
+                color: { value: '#d4af37' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: false },
+                move: { enable: true, speed: 1, direction: 'none', random: true, straight: false, out_mode: 'out', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+            },
+            retina_detect: true
+        });
     </script>
 </body>
 </html>
