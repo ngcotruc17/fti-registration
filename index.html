@@ -156,6 +156,11 @@
             font-weight: 400;
             font-family: 'Quicksand', sans-serif;
         }
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
         button {
             background: linear-gradient(45deg, #a81c1c, #d4af37);
             color: #fffdf5;
@@ -173,6 +178,25 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(168, 28, 28, 0.6);
             background: linear-gradient(45deg, #d4af37, #a81c1c);
+        }
+        #preview-btn {
+            background: #d4af37;
+            color: #3a2e1f;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            box-shadow: 0 5px 10px rgba(212, 175, 55, 0.4);
+        }
+        #preview-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.6);
+            background: #a81c1c;
+            color: #fffdf5;
         }
         .note {
             text-align: center;
@@ -218,6 +242,16 @@
             display: none;
             color: #3a2e1f;
             font-family: 'Quicksand', sans-serif;
+        }
+        .countdown {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #a81c1c;
+            font-weight: 700;
+        }
+        .countdown #timer {
+            color: #3a2e1f;
         }
 
         /* Animations */
@@ -304,6 +338,44 @@
             background: linear-gradient(45deg, #d4af37, #a81c1c);
         }
 
+        .popup-confirm, .popup-back {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .popup-confirm {
+            background: linear-gradient(45deg, #a81c1c, #d4af37);
+            color: #fffdf5;
+        }
+
+        .popup-confirm:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(168, 28, 28, 0.6);
+            background: linear-gradient(45deg, #d4af37, #a81c1c);
+        }
+
+        .popup-back {
+            background: #d4af37;
+            color: #3a2e1f;
+        }
+
+        .popup-back:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.6);
+            background: #a81c1c;
+            color: #fffdf5;
+        }
+
+        .preview .popup-icon {
+            display: none;
+        }
+
         /* Hiệu ứng popup */
         @keyframes popupFadeIn {
             from {
@@ -358,6 +430,9 @@
     </div>
     <div class="container">
         <h2>Đăng Ký Thành Viên Chính Thức</h2>
+        <div id="countdown" class="countdown">
+            <p>Thời gian còn lại để đăng ký: <span id="timer"></span></p>
+        </div>
         <div id="login-section">
             <p>Vui lòng đăng nhập bằng Google để gửi đơn đăng ký.</p>
             <button id="login-btn">Đăng nhập bằng Google</button>
@@ -419,7 +494,10 @@
                 <label for="reason">Lý do bạn muốn tham gia câu lạc bộ:</label>
                 <textarea id="reason" name="reason" rows="4" placeholder="Ví dụ: Tôi muốn học chơi sáo trúc và góp phần quảng bá văn hóa Việt Nam." required></textarea>
             </div>
-            <button type="submit">Gửi Đăng Ký</button>
+            <div class="form-buttons">
+                <button type="button" id="preview-btn">Xem lại</button>
+                <button type="submit" id="submit-btn">Gửi Đăng Ký</button>
+            </div>
         </form>
         <p class="note">*Hạn chót đăng ký: 30/04/2025. Bạn sẽ nhận email xác nhận trong 3-5 ngày.</p>
         <!-- Popup thông báo -->
@@ -475,44 +553,100 @@
         });
 
         // Hàm hiển thị popup
-        function showPopup(type, message) {
+        function showPopup(type, message, showConfirm = false) {
             const popup = document.getElementById('popup');
             const popupContent = document.querySelector('.popup-content');
             const popupIcon = document.getElementById('popup-icon');
             const popupMessage = document.getElementById('popup-message');
+            const popupClose = document.getElementById('popup-close');
 
-            // Xóa class cũ (nếu có)
-            popupContent.classList.remove('success', 'error');
-
-            // Thêm class tương ứng (success hoặc error)
+            // Xóa class cũ
+            popupContent.classList.remove('success', 'error', 'preview');
             popupContent.classList.add(type);
 
             // Cập nhật thông báo
-            popupMessage.textContent = message;
+            popupMessage.innerHTML = message;
+
+            // Ẩn nút đóng mặc định
+            popupClose.style.display = showConfirm ? 'none' : 'block';
+
+            // Thêm nút "Xác nhận" và "Quay lại" nếu là preview
+            if (showConfirm) {
+                const confirmBtn = document.createElement('button');
+                confirmBtn.textContent = 'Xác nhận';
+                confirmBtn.className = 'popup-confirm';
+                confirmBtn.onclick = () => {
+                    document.getElementById('registration-form').dispatchEvent(new Event('submit'));
+                    popup.style.display = 'none';
+                };
+
+                const backBtn = document.createElement('button');
+                backBtn.textContent = 'Quay lại';
+                backBtn.className = 'popup-back';
+                backBtn.onclick = () => {
+                    popup.style.display = 'none';
+                };
+
+                popupContent.appendChild(backBtn);
+                popupContent.appendChild(confirmBtn);
+            }
 
             // Hiển thị popup
             popup.style.display = 'flex';
 
-            // Xử lý sự kiện đóng popup
-            const closeButton = document.getElementById('popup-close');
-            closeButton.onclick = () => {
+            // Xử lý đóng popup
+            popupClose.onclick = () => {
                 popup.style.display = 'none';
+                const confirmBtn = document.querySelector('.popup-confirm');
+                const backBtn = document.querySelector('.popup-back');
+                if (confirmBtn) confirmBtn.remove();
+                if (backBtn) backBtn.remove();
             };
 
-            // Đóng popup khi click bên ngoài
             popup.onclick = (e) => {
                 if (e.target === popup) {
                     popup.style.display = 'none';
+                    const confirmBtn = document.querySelector('.popup-confirm');
+                    const backBtn = document.querySelector('.popup-back');
+                    if (confirmBtn) confirmBtn.remove();
+                    if (backBtn) backBtn.remove();
                 }
             };
         }
 
         // Xử lý gửi form đến Google Apps Script
         const form = document.getElementById('registration-form');
+        document.getElementById('preview-btn').addEventListener('click', () => {
+            const formData = new FormData(form);
+            const data = {
+                fullname: formData.get('fullname'),
+                studentid: formData.get('studentid'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                played_instrument: formData.get('played_instrument'),
+                instruments: formData.getAll('instrument').join(', ') || 'Không có',
+                times: formData.getAll('time').join(', ') || 'Không có',
+                departments: formData.getAll('department').join(', ') || 'Không có',
+                reason: formData.get('reason')
+            };
+
+            const previewMessage = `
+                <strong>Họ và tên:</strong> ${data.fullname}<br>
+                <strong>Mã số sinh viên:</strong> ${data.studentid}<br>
+                <strong>Email:</strong> ${data.email}<br>
+                <strong>Số điện thoại:</strong> ${data.phone}<br>
+                <strong>Đã từng chơi nhạc cụ truyền thống:</strong> ${data.played_instrument === 'yes' ? 'Có' : 'Không'}<br>
+                <strong>Nhạc cụ đã học:</strong> ${data.instruments}<br>
+                <strong>Thời gian tham gia:</strong> ${data.times}<br>
+                <strong>Ban muốn hoạt động:</strong> ${data.departments}<br>
+                <strong>Lý do tham gia:</strong> ${data.reason}
+            `;
+            showPopup('preview', previewMessage, true);
+        });
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Thu thập dữ liệu từ form
             const formData = new FormData(form);
             const data = {
                 fullname: formData.get('fullname'),
@@ -527,25 +661,55 @@
             };
 
             try {
-                // Gửi dữ liệu đến Google Apps Script
-                await fetch('https://script.google.com/macros/s/AKfycbwMEHNM7GrYJKzP1BZqKKmySJaHzNocXReL7E6D_Rpa6iE8u9WFQl5UVM7Ch53aahxX/exec', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwMEHNM7GrYJKzP1BZqKKmySJaHzNocXReL7E6D_Rpa6iE8u9WFQl5UVM7Ch53aahxX/exec', {
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    mode: 'no-cors' // Sử dụng no-cors để tránh lỗi CORS
+                    mode: 'no-cors'
                 });
 
-                // Hiển thị popup thành công
                 showPopup('success', 'Đăng ký thành công! Dữ liệu đã được lưu vào Google Sheets.');
                 form.reset();
             } catch (error) {
                 console.error('Lỗi khi gửi dữ liệu:', error);
-                // Hiển thị popup lỗi
                 showPopup('error', 'Lỗi khi gửi dữ liệu: ' + error.message);
             }
         });
+
+        // Đếm ngược thời gian
+        function startCountdown() {
+            const deadline = new Date('2025-04-30T23:59:59');
+            const timerElement = document.getElementById('timer');
+            const formSection = document.getElementById('registration-form');
+            const loginSection = document.getElementById('login-section');
+
+            const updateTimer = () => {
+                const now = new Date();
+                const timeLeft = deadline - now;
+
+                if (timeLeft <= 0) {
+                    timerElement.textContent = 'Hết hạn đăng ký!';
+                    formSection.style.display = 'none';
+                    loginSection.style.display = 'none';
+                    document.querySelector('h2').textContent = 'Hết hạn đăng ký';
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                timerElement.textContent = `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`;
+            };
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        startCountdown();
     </script>
 </body>
 </html>
