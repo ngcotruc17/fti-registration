@@ -219,6 +219,24 @@
             color: #3a2e1f;
             font-family: 'Quicksand', sans-serif;
         }
+        .logout-btn {
+            background: #a81c1c;
+            color: #fffdf5;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+            border: 2px solid #d4af37;
+        }
+        .logout-btn:hover {
+            background: #d4af37;
+            color: #3a2e1f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(168, 28, 28, 0.4);
+        }
 
         /* Animations */
         @keyframes fadeIn {
@@ -361,7 +379,10 @@
         <div id="login-section">
             <p>Vui lòng đăng nhập bằng Google để gửi đơn đăng ký.</p>
             <button id="login-btn">Đăng nhập bằng Google</button>
-            <div id="user-info"></div>
+            <div id="user-info">
+                <span id="user-details"></span>
+                <button id="logout-btn" class="logout-btn">Đăng xuất</button>
+            </div>
         </div>
         <form action="#" method="post" class="form-section" id="registration-form">
             <div class="form-group">
@@ -383,8 +404,8 @@
             <div class="form-group">
                 <label>Bạn đã từng chơi nhạc cụ truyền thống nào chưa?</label>
                 <div class="radio-group">
-                    <div><input type="radio" id="yes" name="played_instrument" value="Có" required> <label for="yes">Có</label></div>
-                    <div><input type="radio" id="no" name="played_instrument" value="Không"> <label for="no">Không</label></div>
+                    <div><input type="radio" id="yes" name="played_instrument" value="yes" required> <label for="yes">Có</label></div>
+                    <div><input type="radio" id="no" name="played_instrument" value="no"> <label for="no">Không</label></div>
                 </div>
             </div>
             <div class="form-group">
@@ -401,10 +422,10 @@
             <div class="form-group">
                 <label>Thời gian bạn có thể tham gia họp CLB:</label>
                 <div class="checkbox-group">
-                    <div><input type="checkbox" id="mon" name="time" value="Thứ 2 (18:00 - 20:00)"> <label for="mon">Thứ 2 (18:00 - 20:00)</label></div>
-                    <div><input type="checkbox" id="wed" name="time" value="Thứ 4 (18:00 - 20:00)"> <label for="wed">Thứ 4 (18:00 - 20:00)</label></div>
-                    <div><input type="checkbox" id="fri" name="time" value="Thứ 6 (14:00 - 16:00)"> <label for="fri">Thứ 6 (14:00 - 16:00)</label></div>
-                    <div><input type="checkbox" id="flex" name="time" value="Linh hoạt theo lịch CLB"> <label for="flex">Linh hoạt theo lịch CLB</label></div>
+                    <div><input type="checkbox" id="tue" name="time" value="Tue"> <label for="tue">Thứ 3 (18:00 - 20:00)</label></div>
+                    <div><input type="checkbox" id="thu" name="time" value="Thu"> <label for="thu">Thứ 5 (18:00 - 20:00)</label></div>
+                    <div><input type="checkbox" id="sat" name="time" value="Sat"> <label for="sat">Thứ 7 (14:00 - 16:00)</label></div>
+                    <div><input type="checkbox" id="flex" name="time" value="Flex"> <label for="flex">Linh hoạt theo lịch CLB</label></div>
                 </div>
             </div>
             <div class="form-group">
@@ -439,7 +460,7 @@
     <script type="module">
         // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
         // Your Firebase configuration
         const firebaseConfig = {
@@ -465,12 +486,29 @@
                     document.getElementById('login-section').style.display = 'none';
                     document.getElementById('registration-form').style.display = 'grid';
                     document.getElementById('user-info').style.display = 'block';
-                    document.getElementById('user-info').innerHTML = `Đã đăng nhập: ${user.displayName} (${user.email})`;
+                    document.getElementById('user-details').innerHTML = `Đã đăng nhập: ${user.displayName} (${user.email})`;
                     document.getElementById('email').value = user.email;
                 })
                 .catch((error) => {
                     console.error("Lỗi đăng nhập:", error.message);
                     showPopup('error', 'Đã có lỗi xảy ra khi đăng nhập: ' + error.message);
+                });
+        });
+
+        // Xử lý đăng xuất
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            signOut(auth)
+                .then(() => {
+                    // Đăng xuất thành công
+                    document.getElementById('login-section').style.display = 'block';
+                    document.getElementById('registration-form').style.display = 'none';
+                    document.getElementById('user-info').style.display = 'none';
+                    document.getElementById('email').value = '';
+                    showPopup('success', 'Đăng xuất thành công!');
+                })
+                .catch((error) => {
+                    console.error("Lỗi đăng xuất:", error.message);
+                    showPopup('error', 'Lỗi khi đăng xuất: ' + error.message);
                 });
         });
 
@@ -538,7 +576,7 @@
                 });
 
                 // Hiển thị popup thành công
-                showPopup('success', 'Đăng ký thành công! Bạn sẽ nhận email xác nhận trong 3-5 ngày.');
+                showPopup('success', 'Đăng ký thành công! Dữ liệu đã được lưu vào Google Sheets.');
                 form.reset();
             } catch (error) {
                 console.error('Lỗi khi gửi dữ liệu:', error);
